@@ -58,6 +58,8 @@ namespace Ui
             // add to list of windows
             Windows.Add(window);
 
+            new Evt.Event(Evt.Types.WindowOpen, name).Send();
+
             // if any window is being closed, wait for finish
             if (ClosingWindows.Count > 0)
             {
@@ -86,6 +88,8 @@ namespace Ui
                 win.Close();
 
                 ClosingWindows.Add(win);
+
+                new Evt.Event(Evt.Types.WindowClose, name).Send();
             }
         }
 
@@ -99,6 +103,8 @@ namespace Ui
         {
             ClosingWindows.Remove(window);
 
+            new Evt.Event(Evt.Types.WindowCloseFinisihed, name).Send();
+
             Destroy(window.gameObject);
 
             if (WindowsToOpen.Count > 0)
@@ -110,6 +116,8 @@ namespace Ui
 
         private void OnWindowOpen(Window window)
         {
+            new Evt.Event(Evt.Types.WindowOpenFinished, window.name).Send();
+
             if (WindowsToOpen.Count > 0)
             {
                 WindowsToOpen[0].Open();

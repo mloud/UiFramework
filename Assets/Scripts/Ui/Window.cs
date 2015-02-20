@@ -40,17 +40,10 @@ namespace Ui
 
         public void Open()
         {
-            //StartCoroutine(OpenCoroutine());
             OpenInternal();
         }
 
-        private IEnumerator OpenCoroutine()
-        {
-            yield return 0;
-
-            OpenInternal();
-        }
-
+     
         private void OpenInternal()
         {
             Core.Dbg.Assert(Animator != null || (Animator == null && OpenAnim == UiDefs.Window.Anims.None), "Window.OpenInternal() open animation set but no animator component found");
@@ -58,8 +51,9 @@ namespace Ui
             bool playAnimation = Animator != null && OpenAnim != UiDefs.Window.Anims.None;
 
             if (playAnimation)
+            {
                 Animator.SetTrigger(OpenAnim.ToString());
-
+            }
             // call actions
             if (OpenStart != null)
                 OpenStart(this);
@@ -68,8 +62,11 @@ namespace Ui
 
             // call manually OpenFinished
             if (!playAnimation)
+            {
                 OnEvent(Ui.UiDefs.Triggers.OpenFinished);
+            }
         }
+
 
         public void Close()
         {
@@ -78,7 +75,9 @@ namespace Ui
             bool playAnimation = Animator != null && CloseAnim != UiDefs.Window.Anims.None;
 
             if (playAnimation)
+            {
                 Animator.SetTrigger(CloseAnim.ToString());
+            }
 
             OnClose();
 
@@ -87,8 +86,7 @@ namespace Ui
                 OnEvent(Ui.UiDefs.Triggers.CloseFinished);
         }
 
-        public void Update()
-        {}
+     
 
         public void OnEvent(string eventName)
         {

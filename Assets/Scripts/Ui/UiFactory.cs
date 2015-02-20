@@ -31,6 +31,9 @@ namespace Ui
                 component = Core.App.Instance.Res.Instantiate<T>(windowsPrefabPath + uiComponent);
             }
 
+            if (component != null)
+                component.gameObject.name = uiComponent;
+
             return component;
         }
 

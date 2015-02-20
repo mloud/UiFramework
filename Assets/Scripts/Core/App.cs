@@ -10,6 +10,8 @@ namespace Core
         public Ui.IUIFactory UiFactory { get; private set; }
         public Core.IResourceManager Res { get; private set; }
 
+        public bool IsQuitting { get; private set; }
+
         public static App Instance
         {
             get
@@ -43,7 +45,7 @@ namespace Core
 
         public void Test()
         {
-            UiManager.WindowManager.OpenWindow("TestWindow");
+           UiManager.WindowManager.OpenWindow("TestWindow");
         }
 
         public override void Init()
@@ -71,6 +73,12 @@ namespace Core
         {
             var go = Instantiate(Resources.Load<GameObject>("Prefabs/Core/App")) as GameObject;
             return go.GetComponent<App>();
+        }
+
+
+        private void OnApplicationQuit()
+        {
+            IsQuitting = true;
         }
     }
 }

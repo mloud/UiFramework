@@ -6,6 +6,9 @@ namespace Ui
 {
     public class UiManager : Core.MonoBehaviourGod
     {
+
+        public Action<Evt.Event> EventHandlers;
+
         public class Environment
         {
             public Canvas Canvas;
@@ -17,6 +20,23 @@ namespace Ui
         public WindowManager WindowManager { get; private set; }
 
         public Environment Env { get; set;  }
+
+        public void DispatchEvent(Evt.Event evt)
+        {
+            if (EventHandlers != null)
+                EventHandlers(evt);
+        }
+        
+        public void RegisterEventListener(Action<Evt.Event> action)
+        {
+            EventHandlers += action;
+        }
+
+        public void UnregisterEventListener(Action<Evt.Event> action)
+        {
+            EventHandlers -= action;
+        }
+
 
         public void Init(IUIFactory factory)
         {
