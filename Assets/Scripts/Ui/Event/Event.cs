@@ -17,18 +17,18 @@ namespace Ui.Evt
         
         public void Send()
         {
-            Core.App.Instance.UiManager.DispatchEvent(this);    
+            Core.App.Instance.UiManager.EventDispatcher.Dispatch(this);  
         }
 
         public static void Register(Action<Evt.Event> action)
         {
-            Core.App.Instance.UiManager.RegisterEventListener(action);
+            Core.App.Instance.UiManager.EventDispatcher.Register(action);
         }
 
         public static void Unregister(Action<Evt.Event> action)
         {
-            if (!Core.App.Instance.IsQuitting)
-                Core.App.Instance.UiManager.UnregisterEventListener(action);
+            if (!Core.App.Instance.IsQuitting)// TODO
+                Core.App.Instance.UiManager.EventDispatcher.Unregister(action);
         }
 
     }
