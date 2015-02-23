@@ -11,7 +11,8 @@ namespace Ui.Evt
         WindowOpen,
         WindowOpenFinished,
         WindowClose,
-        WindowCloseFinisihed
+        WindowCloseFinisihed,
+        SceneLoaded
     }
 
 }

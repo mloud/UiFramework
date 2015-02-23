@@ -6,7 +6,6 @@ namespace Ui
 {
     public class UiManager : Core.MonoBehaviourGod
     {
-
         public class Environment
         {
             public Canvas Canvas;
@@ -62,6 +61,11 @@ namespace Ui
         private void SetEnvironment()
         {
             Env.Canvas = GameObject.FindObjectOfType<Canvas>();
+        }
+
+        private void OnLevelWasLoaded(int level)
+        {
+            new Evt.Event(Evt.Types.SceneLoaded, level.ToString());
         }
     }
 }

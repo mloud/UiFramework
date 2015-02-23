@@ -33,6 +33,8 @@ namespace Ui
         {
             base.Init();
 
+            Evt.Event.Register(OnEventReceived);
+
             UiManager = uiManager;
 
             Windows = new List<Window>();
@@ -125,11 +127,22 @@ namespace Ui
             }
         }
 
-        private void OnLevelWasLoaded(int level)
+
+        private void OnDestroy()
         {
-            Windows.Clear();
-            ClosingWindows.Clear();
-            WindowsToOpen.Clear();
+            Evt.Event.Unregister(OnEventReceived);
+        }
+
+
+        // events
+        private void OnEventReceived(Evt.Event evt)
+        {
+            if (evt.Type == Evt.Types.SceneLoaded)
+            {
+                Windows.Clear();
+                ClosingWindows.Clear();
+                WindowsToOpen.Clear();
+            }
         }
     }
 }
