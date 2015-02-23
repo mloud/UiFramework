@@ -13,5 +13,11 @@ namespace Ui.Action
         {
             Core.Dbg.Log("ActionSound.Run()");
         }
+
+
+        protected override bool OnUpdate()
+        {
+            return false;
+        }
     }
 }

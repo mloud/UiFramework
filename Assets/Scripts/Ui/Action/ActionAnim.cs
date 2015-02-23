@@ -21,13 +21,17 @@ namespace Ui.Action
             Started = true;
         }
 
-
-        protected void Update()
+        protected override bool OnUpdate()
         {
             if (Started && !Animation.isPlaying)
             {
                 new Evt.Event(Evt.Types.ActionFinished, Name).Send();
+
+                Started = false;
+
+                return true;
             }
+            return false;
         }
     }
 }

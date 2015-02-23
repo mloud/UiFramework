@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Ui.Action
 {
     [System.Serializable]
-    public class ActionBase : Core.MonoBehaviourGod
+    public abstract class ActionBase : Core.MonoBehaviourGod
     {
         // Name of action
         public string Name;
@@ -15,29 +15,61 @@ namespace Ui.Action
         public string Param;
         // delay before start
         public float Delay = 0.0f;
+        // Action is destroyed after it finishes
+        public bool DestroyAfterFinish = true;
+        //  Custom OnRun action
+        public System.Action OnRunAction;
+
+        public void Set(Ui.Evt.Types type, string param, float delay, bool destroyAfterFinish, System.Action onRunAction)
+        {
+            Type = type;
+            Param = param;
+            Delay = delay;
+            DestroyAfterFinish = destroyAfterFinish;
+            OnRunAction += onRunAction;
+        }
 
         public void Run()
         {
-            Invoke("OnRun", Delay);
+            Invoke("RunInternal", Delay);
         }
 
-        protected virtual void OnRun()
-        {}
-
-
-        private void Start()
+        private void RunInternal()
         {
-            Evt.Event.Register(OnEventReceived);  
+            if (OnRunAction != null)
+                OnRunAction();
+
+            OnRun();
         }
 
-        private void OnDestroy()
+        protected abstract void OnRun();
+
+        protected void OnEnable()
+        {
+            Evt.Event.Register(OnEventReceived);
+        }
+
+        protected void OnDisable()
         {
             Evt.Event.Unregister(OnEventReceived);
         }
 
+        protected abstract bool OnUpdate();
+       
         protected virtual void OnEventReceived(Evt.Event evt)
-        { }
+        {
+            if (evt.Type == Type && evt.Param == Param)
+            {
+               Run();
+            }
+        }
 
-
+        private void Update()
+        {
+            if (OnUpdate() && DestroyAfterFinish)
+            {
+                Destroy(this);            
+            }
+        }
     }
 }

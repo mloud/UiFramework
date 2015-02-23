@@ -6,7 +6,6 @@ namespace Ui.Action
 {
     public class Container : Core.MonoBehaviourGod
     {
-      
         private List<ActionBase> Actions;
 
         protected override void Awake()
@@ -15,26 +14,9 @@ namespace Ui.Action
           Actions = new List<ActionBase>(GetComponents<ActionBase>());
         }
 
-        protected void OnEnable()
+        public T AddAction<T>() where T : ActionBase
         {
-            Evt.Event.Register(OnEventReceived);
+            return gameObject.AddComponent<T>();
         }
-
-        protected void OnDisable()
-        {
-            Evt.Event.Unregister(OnEventReceived);
-        }
-
-
-        private void OnEventReceived(Evt.Event evt)
-        {
-            foreach (var action in Actions)
-            {
-                if (action.Type == evt.Type && action.Param == evt.Param)
-                {
-                    action.Run();
-                }
-            }
-        }
-    }
+   }
 }
