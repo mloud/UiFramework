@@ -15,6 +15,10 @@ namespace Ui.Action
         {
             foreach (var go in GameObjects)
                 go.SetActive(Enable);
+
+
+            // Send event that action finished
+            new Evt.Event(Evt.Types.ActionFinished, Name).Send();
         }
     }
 }

@@ -6,6 +6,7 @@ namespace Ui.Evt
 {
     public enum Types
     {
+        ActionFinished,
         Click,
         WindowOpen,
         WindowOpenFinished,
