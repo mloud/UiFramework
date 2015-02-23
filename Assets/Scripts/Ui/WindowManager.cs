@@ -9,17 +9,16 @@ namespace Ui
     public class WindowManager : Core.MonoBehaviourGod
     {
         // Currently opened windows
-        private List<Window> Windows { get; set; }
+        private List<WindowController> Windows { get; set; }
 
         // Windows being closed
-        private List<Window> ClosingWindows { get; set; }
+        private List<WindowController> ClosingWindows { get; set; }
         
         // Windows waiting to be opened
-        private List<Window> WindowsToOpen { get; set; }
+        private List<WindowController> WindowsToOpen { get; set; }
 
         // Reference to UIManager
         private UiManager UiManager { get; set; }
-
 
         // Creates instance
         public static WindowManager CreateInstance()
@@ -37,43 +36,45 @@ namespace Ui
 
             UiManager = uiManager;
 
-            Windows = new List<Window>();
-            ClosingWindows = new List<Window>();
-            WindowsToOpen = new List<Window>();
+            Windows = new List<WindowController>();
+            ClosingWindows = new List<WindowController>();
+            WindowsToOpen = new List<WindowController>();
         }
      
         // Open Window by name and param
-        public Window OpenWindow(string name, object param = null)
+        public WindowController OpenWindow(string name, object param = null)
         {
             // Use factory to create window object
-            var window = UiManager.Factory.Create<Window>(name);
+            var windowCtrl = UiManager.Factory.Create<WindowController>(name);
 
             // Place window under canvas hierarchy
-            window.gameObject.transform.SetParent(UiManager.Env.Canvas.transform);
+            windowCtrl.View.gameObject.transform.SetParent(UiManager.Env.Canvas.transform);
 
             // register actions here
-            window.OpenFinished += this.OnWindowOpen;
-            window.CloseFinished += this.OnWindowClosed;
+            windowCtrl.View.OpenFinished += this.OnWindowOpen;
+            windowCtrl.View.CloseFinished += this.OnWindowClosed;
 
-            window.Init(param);
+            windowCtrl.View.Init(param);
+
+
 
             // add to list of windows
-            Windows.Add(window);
+            Windows.Add(windowCtrl);
 
             new Evt.Event(Evt.Types.WindowOpen, name).Send();
 
             // if any window is being closed, wait for finish
             if (ClosingWindows.Count > 0)
             {
-                WindowsToOpen.Add(window);
+                WindowsToOpen.Add(windowCtrl);
             }
             // open now
             else
             {
-                window.Open();
+                windowCtrl.View.Open();
             }
 
-            return window;
+            return windowCtrl;
         }
 
         // Close Window by name
@@ -81,13 +82,13 @@ namespace Ui
         {
             if (IsOpen(name))
             {
-                int index = Windows.FindIndex(x => x.Name == name);
+                int index = Windows.FindIndex(x => x.View.Name == name);
 
                 var win = Windows[index];
 
                 Windows.RemoveAt(index);
 
-                win.Close();
+                win.View.Close();
 
                 ClosingWindows.Add(win);
 
@@ -98,12 +99,12 @@ namespace Ui
         
         public bool IsOpen(string name)
         {
-            return Windows.Find(x => x.Name == name) != null;
+            return Windows.Find(x => x.View.Name == name) != null;
         }
 
         private void OnWindowClosed(Window window)
         {
-            ClosingWindows.Remove(window);
+            ClosingWindows.RemoveAt(ClosingWindows.FindIndex(x=>x.View == window));
 
             new Evt.Event(Evt.Types.WindowCloseFinisihed, name).Send();
 
@@ -111,7 +112,7 @@ namespace Ui
 
             if (WindowsToOpen.Count > 0)
             {
-                WindowsToOpen[0].Open();
+                WindowsToOpen[0].View.Open();
                 WindowsToOpen.RemoveAt(0);
             }
         }
@@ -122,7 +123,7 @@ namespace Ui
 
             if (WindowsToOpen.Count > 0)
             {
-                WindowsToOpen[0].Open();
+                WindowsToOpen[0].View.Open();
                 WindowsToOpen.RemoveAt(0);
             }
         }

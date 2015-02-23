@@ -26,7 +26,7 @@ namespace Ui
         {
             T component = null;
 
-            if (typeof(T) == typeof(Window))
+            if (typeof(T) == typeof(WindowController))
             {
                 component = Core.App.Instance.Res.Instantiate<T>(windowsPrefabPath + uiComponent);
             }
