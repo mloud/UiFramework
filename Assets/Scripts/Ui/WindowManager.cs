@@ -56,6 +56,7 @@ namespace Ui
 
             windowCtrl.View.Init(param);
 
+            
 
 
             // add to list of windows
@@ -120,6 +121,18 @@ namespace Ui
         private void OnWindowOpen(Window window)
         {
             new Evt.Event(Evt.Types.WindowOpenFinished, window.name).Send();
+
+            // window opening finished - check for inactive background
+            if (window.ConsumeAllTouches)
+            {
+                var bg = UiManager.Factory.Create<WindowBackground>("WindowBackground");
+                bg.transform.SetParent(window.transform);
+                bg.transform.SetAsFirstSibling();
+                bg.transform.localPosition = Vector3.zero;
+                (bg.transform as RectTransform).offsetMin = Vector2.zero;
+                (bg.transform as RectTransform).offsetMax = Vector2.one;
+            }
+
 
             if (WindowsToOpen.Count > 0)
             {

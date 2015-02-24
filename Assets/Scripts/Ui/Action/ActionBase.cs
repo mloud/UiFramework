@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Ui.Action
 {
     [System.Serializable]
-    public abstract class ActionBase : Core.MonoBehaviourGod
+    public class ActionBase : Core.MonoBehaviourGod
     {
         // Name of action
         public string Name;
@@ -42,7 +42,8 @@ namespace Ui.Action
             OnRun();
         }
 
-        protected abstract void OnRun();
+        protected virtual void OnRun()
+        { }
 
         protected void OnEnable()
         {
@@ -54,7 +55,10 @@ namespace Ui.Action
             Evt.Event.Unregister(OnEventReceived);
         }
 
-        protected abstract bool OnUpdate();
+        protected virtual bool OnUpdate()
+        {
+            return false;
+        }
        
         protected virtual void OnEventReceived(Evt.Event evt)
         {

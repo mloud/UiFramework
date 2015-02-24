@@ -23,17 +23,17 @@ namespace Ui
         {
             base.Init(param);
 
-            var acontainer = btn.gameObject.AddComponent<Ui.Action.Container>();
+            //var acontainer = btn.gameObject.AddComponent<Ui.Action.Container>();
 
-            var action = acontainer.AddAction<Ui.Action.ActionEnabler>();
-            action.Set(Evt.Types.WindowOpenFinished, Name, 2, true,  () =>
-            {
-               Core.Dbg.Log("Test", Core.Dbg.MessageType.Info);
-            });
-            action.Enable = false;
-            action.GameObjects.Add(btn.gameObject);
+            //var action = acontainer.AddAction<Ui.Action.ActionEnabler>();
+            //action.Set(Evt.Types.WindowOpenFinished, Name, 2, true,  () =>
+            //{
+            //   Core.Dbg.Log("Test", Core.Dbg.MessageType.Info);
+            //});
+            //action.Enable = false;
+            //action.GameObjects.Add(btn.gameObject);
 
-            btn1.onClick.AddListener(() => AllocateTexture(1024, 1024));
+            //btn1.onClick.AddListener(() => AllocateTexture(1024, 1024));
 
         }
 

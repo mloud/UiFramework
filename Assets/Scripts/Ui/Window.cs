@@ -15,8 +15,11 @@ namespace Ui
         public Action<Window> OpenStart;
         public Action<Window> OpenFinished;
         public Action<Window> CloseFinished;
-     
-        
+
+        // if true, touches are not sent to other windows lying bellow 
+        public bool ConsumeAllTouches;
+
+
         private Animator Animator { get; set; }
 
 

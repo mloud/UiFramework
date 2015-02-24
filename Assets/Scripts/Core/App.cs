@@ -45,7 +45,8 @@ namespace Core
 
         public void Test()
         {
-           UiManager.WindowManager.OpenWindow("TestWindow");
+            UiManager.WindowManager.OpenWindow("TestWindow");
+            UiManager.WindowManager.OpenWindow("TestWindow2");
         }
 
         public override void Init()
