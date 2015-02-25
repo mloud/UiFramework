@@ -12,6 +12,7 @@ namespace Core
 
         public bool IsQuitting { get; private set; }
 
+
         public static App Instance
         {
             get
@@ -28,9 +29,15 @@ namespace Core
     
         protected override void Awake()
         {
-            instance = this; // for case that App is in scene hierarchy
+            if (instance == null)
+            {
 
-            Init();
+                DontDestroyOnLoad(gameObject);
+
+                instance = this; // for case that App is in scene hierarchy
+
+                Init();
+            }
         }
 
 
@@ -38,9 +45,9 @@ namespace Core
         {
             base.Start();
 
+            UiManager.LoadScene(Ui.UiDefs.Scene.Intro);
 
-            Invoke("Test", 2.0f);
-
+            //Invoke("Test", 2.0f);
         }
 
         public void Test()
@@ -52,7 +59,7 @@ namespace Core
         public override void Init()
         {
             base.Init();
-            
+
             // create ResourceManager
             var resInstance = Core.ResourceManager.CreateInstance();
             resInstance.transform.SetParent(transform);

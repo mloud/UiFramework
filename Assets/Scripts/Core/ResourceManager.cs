@@ -15,7 +15,7 @@ namespace Core
         }
 
         // Instantiate GameObject from prefab path and return reference to script on instance
-        public T Instantiate<T>(string prefabPath) where T :  MonoBehaviourGod
+        public T Instantiate<T>(string prefabPath) where T :  MonoBehaviour
         {
             GameObject prefab = LoadPrefab<GameObject>(prefabPath);
 

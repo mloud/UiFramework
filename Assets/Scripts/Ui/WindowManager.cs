@@ -48,7 +48,7 @@ namespace Ui
             var windowCtrl = UiManager.Factory.Create<WindowController>(name);
 
             // Place window under canvas hierarchy
-            windowCtrl.View.gameObject.transform.SetParent(UiManager.Env.Canvas.transform);
+            windowCtrl.View.gameObject.transform.SetParent(UiManager.Env.SceneCanvas.transform);
 
             // register actions here
             windowCtrl.View.OpenFinished += this.OnWindowOpen;

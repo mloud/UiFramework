@@ -26,5 +26,12 @@ namespace Ui
                 Close_SlideToRight
             }
         }
+
+        public static class Scene
+        {
+            public static string Intro = "Intro";
+            public static string Menu  = "Menu";
+            public static string Game  = "Game";
+        }   
     }
 }

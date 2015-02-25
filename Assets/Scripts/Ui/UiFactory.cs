@@ -11,6 +11,8 @@ namespace Ui
         [SerializeField]
         string componentsPrefabPath;
 
+        [SerializeField]
+        string sceneUiPrefabPath;
 
         protected override void Awake()
         {
@@ -21,6 +23,9 @@ namespace Ui
 
             if (!componentsPrefabPath.EndsWith("/"))
                 componentsPrefabPath += "/";
+
+            if (!sceneUiPrefabPath.EndsWith("/"))
+                sceneUiPrefabPath += "/";
         }
 
         public static UiFactory CreateInstance()
@@ -29,7 +34,7 @@ namespace Ui
         }
 
 
-        public T Create<T>(string uiComponent) where T : Core.MonoBehaviourGod
+        public T Create<T>(string uiComponent) where T : MonoBehaviour
         {
             T component = null;
 
@@ -44,7 +49,19 @@ namespace Ui
             {
                 component = Core.App.Instance.Res.Instantiate<T>(componentsPrefabPath + uiComponent); 
             }
-
+            else if (typeof(T) == typeof(Ui.TransitionBackground))
+            {
+                component = Core.App.Instance.Res.Instantiate<T>(componentsPrefabPath + uiComponent); 
+            }
+            // Scene canvas
+            else if (typeof(T) == typeof(Ui.Comp.SceneCanvas))
+            {
+                component = Core.App.Instance.Res.Instantiate<T>(componentsPrefabPath + uiComponent);
+            }
+            else if (typeof(T) == typeof(Ui.Component))
+            {
+                component = Core.App.Instance.Res.Instantiate<T>(sceneUiPrefabPath + uiComponent);
+            }
 
             if (component != null)
                 component.gameObject.name = uiComponent;

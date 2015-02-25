@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class WindowBackground : Core.MonoBehaviourGod
+public class WindowBackground : Ui.Component
 {
     [SerializeField]
     private Image image;
