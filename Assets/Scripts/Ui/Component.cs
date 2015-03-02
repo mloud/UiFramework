@@ -13,6 +13,12 @@ namespace Ui
 
         public virtual void Init(object param)
         {}
+
+        public virtual void SetParent(RectTransform parent)
+        {
+            transform.SetParent(parent);
+        }
+        
     }
 
 }

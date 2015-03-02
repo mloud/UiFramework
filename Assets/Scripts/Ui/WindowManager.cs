@@ -126,12 +126,8 @@ namespace Ui
             if (window.ConsumeAllTouches)
             {
                 var bg = UiManager.Factory.Create<WindowBackground>("WindowBackground");
-                bg.transform.SetParent(window.transform);
-                bg.transform.SetAsFirstSibling();
-                bg.transform.localPosition = Vector3.zero;
-                (bg.transform as RectTransform).offsetMin = Vector2.zero;
-                (bg.transform as RectTransform).offsetMax = Vector2.one;
-            }
+                bg.SetParent(window.transform as RectTransform);
+             }
 
 
             if (WindowsToOpen.Count > 0)

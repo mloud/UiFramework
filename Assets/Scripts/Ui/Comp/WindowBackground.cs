@@ -15,4 +15,14 @@ public class WindowBackground : Ui.Component
 
         image.enabled = alpha > 0;
     }
+
+
+    public override void SetParent(RectTransform parent)
+    {
+        transform.SetParent(parent);
+        transform.SetAsFirstSibling(); // = move to background
+        transform.localPosition = Vector3.zero;
+        (transform as RectTransform).offsetMin = Vector2.zero;
+        (transform as RectTransform).offsetMax = Vector2.one;
+    }
 }
